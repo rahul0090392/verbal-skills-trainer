@@ -1,0 +1,12 @@
+fastapi>=0.100.0
+uvicorn>=0.22.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+httpx>=0.24.1,<0.25.0  # Pinning httpx version for compatibility
+openai>=1.0.0  # Pinning specific OpenAI version
+sqlalchemy>=2.0.0
+python-multipart>=0.0.6
+speechrecognition>=3.8.1
+gtts>=2.3.2
+pydub>=0.25.1
+jinja2
