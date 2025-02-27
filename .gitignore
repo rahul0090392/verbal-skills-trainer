@@ -9,6 +9,7 @@ __pycache__/
 #ENV
 .env.*
 .env*
+.env.template
 
 # Distribution / packaging
 .Python
