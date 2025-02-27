@@ -103,7 +103,7 @@ docker-compose down
 
 
 ## 👨‍💻 Contributors
-- Your Name - [GitHub](https://github.com/rahul0090392)
+- Rahul Jain - [GitHub](https://github.com/rahul0090392)
 
 ---
 
