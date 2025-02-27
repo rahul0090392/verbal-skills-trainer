@@ -52,6 +52,7 @@ def get_health() -> HealthCheck:
     """
     return HealthCheck(status="OK")
 
+
 @app.get("/ui/chat", response_class=HTMLResponse)
 async def root(request: Request):
     return templates.TemplateResponse(
