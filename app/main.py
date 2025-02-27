@@ -50,7 +50,7 @@ def get_health() -> HealthCheck:
     Returns:
         HealthCheck: Returns a JSON response with the health status
     """
-    return HealthCheck(status="OK")
+    return HealthCheck(status="healthy")
 
 
 @app.get("/ui/chat", response_class=HTMLResponse)
