@@ -1,6 +1,7 @@
+import os
 from pathlib import Path
 
-from fastapi import FastAPI, Form, Request, status
+from fastapi import FastAPI, File, Form, Request, UploadFile, status
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -8,6 +9,7 @@ from pydantic import BaseModel
 
 from app.api.llm_client import LLMClient
 from app.modules.chat import ChatModule
+from app.modules.voice import VoiceModule
 
 # Initialize FastAPI app
 app = FastAPI(title="Verbal Communication Skills Trainer")
@@ -24,6 +26,7 @@ app.mount("/static", StaticFiles(directory=str(BASE_DIR / "app/static")), name="
 # Initialize modules
 llm_client = LLMClient()
 chat_module = ChatModule(llm_client)
+voice_module = VoiceModule()
 
 
 class HealthCheck(BaseModel):
@@ -64,3 +67,19 @@ async def root(request: Request):
 async def chat_interaction(message: str = Form(...), mode: str = Form("Coach")):
     response = await chat_module.get_response(message, mode)
     return {"response": response}
+
+@app.post("/api/voice/analyze")
+async def analyze_voice(audio: UploadFile = File(...)):
+    temp_file = f"temp_{audio.filename}"
+    with open(temp_file, "wb") as buffer:
+        buffer.write(await audio.read())
+
+    try:
+        transcript = voice_module.transcribe_audio(temp_file)
+        return {"transcript": transcript}
+    finally:
+        os.remove(temp_file)
+
+@app.get("/ui/voice", response_class=HTMLResponse)
+async def voice_page(request: Request):
+    return templates.TemplateResponse("voice.html", {"request": request})
